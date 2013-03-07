@@ -44,7 +44,7 @@ public class RenameSolidSteel {
 
 		File[] subFiles = baseDirectory.listFiles();
 		for (File subFile : subFiles) {
-			SolidSteelFileTags fileTags = null;
+			SolidSteelFileTagsBeagleBuddy fileTags = null;
 
 			try {
 				Matcher matcher = PATTERN_1.matcher(subFile.getName());
@@ -52,7 +52,7 @@ public class RenameSolidSteel {
 					Date date = SRC1_DATE_FORMAT.parse(matcher.group(1));
 
 					fileTags =
-							new SolidSteelFileTags(subFile.getAbsolutePath(), date, matcher.group(2),
+							new SolidSteelFileTagsBeagleBuddy(subFile.getAbsolutePath(), date, matcher.group(2),
 									matcher.group(3), "", matcher.group(4));
 				}
 
@@ -61,7 +61,7 @@ public class RenameSolidSteel {
 					while (matcher.find()) {
 						Date date = SRC1_DATE_FORMAT.parse(matcher.group(1));
 
-						fileTags = new SolidSteelFileTags(subFile.getAbsolutePath(), date, matcher.group(2),
+						fileTags = new SolidSteelFileTagsBeagleBuddy(subFile.getAbsolutePath(), date, matcher.group(2),
 								matcher.group(3), matcher.group(4), matcher.group(5));
 					}
 				}
@@ -71,7 +71,7 @@ public class RenameSolidSteel {
 					while (matcher.find()) {
 						Date date = MusicBase.TRUE_DATE_FORMAT.parse(matcher.group(1));
 
-						fileTags = new SolidSteelFileTags(subFile.getAbsolutePath(), date, matcher.group(3),
+						fileTags = new SolidSteelFileTagsBeagleBuddy(subFile.getAbsolutePath(), date, matcher.group(3),
 								matcher.group(2), "", matcher.group(4));
 					}
 				}
@@ -81,7 +81,7 @@ public class RenameSolidSteel {
 					while (matcher.find()) {
 						Date date = SRC4_DATE_FORMAT.parse(matcher.group(1));
 
-						fileTags = new SolidSteelFileTags(subFile.getAbsolutePath(), date, matcher.group(4),
+						fileTags = new SolidSteelFileTagsBeagleBuddy(subFile.getAbsolutePath(), date, matcher.group(4),
 								matcher.group(2), matcher.group(3), matcher.group(5));
 					}
 				}
@@ -91,7 +91,7 @@ public class RenameSolidSteel {
 					while (matcher.find()) {
 						Date date = MusicBase.TRUE_DATE_FORMAT.parse(matcher.group(1));
 
-						fileTags = new SolidSteelFileTags(subFile.getAbsolutePath(), date, matcher.group(4),
+						fileTags = new SolidSteelFileTagsBeagleBuddy(subFile.getAbsolutePath(), date, matcher.group(4),
 								matcher.group(2), matcher.group(3), matcher.group(5));
 					}
 				}
