@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 public class RenameSolidSteel {
 	private static final SimpleDateFormat SRC1_DATE_FORMAT = new SimpleDateFormat("dd.mm.yy");
 	private static final SimpleDateFormat SRC4_DATE_FORMAT = new SimpleDateFormat("dd_mm_yyyy");
+	private static final SimpleDateFormat SRC6_DATE_FORMAT = new SimpleDateFormat("dd-MMM-yy");
 
 	private static final Pattern PATTERN_1 = Pattern.compile("(\\d\\d.\\d\\d.\\d\\d) - (.+) \\(pt\\.(\\d)\\)(\\..+)");
 	private static final Pattern PATTERN_2 =
@@ -26,6 +27,8 @@ public class RenameSolidSteel {
 			Pattern.compile(".+ (\\d+.\\d+.\\d\\d\\d\\d).Part.(\\d)...(\\d) - (.+)(\\..+)");
 	private static final Pattern PATTERN_5 =
 			Pattern.compile(".+ (\\d\\d\\d\\d.\\d\\d.\\d\\d).+(\\d).(\\d). (.+)(\\..+)");
+	private static final Pattern PATTERN_6 =
+			Pattern.compile("(\\d\\d-...-\\d\\d).(\\d\\d) (.+).(\\..+)");
 
 	public static void main(String[] args) {
 		String basePath = new File(".").getAbsolutePath();
@@ -93,6 +96,19 @@ public class RenameSolidSteel {
 
 						fileTags = new SolidSteelFileTagsBeagleBuddy(subFile.getAbsolutePath(), date, matcher.group(4),
 								matcher.group(2), matcher.group(3), matcher.group(5));
+					}
+				}
+
+				if (fileTags == null) {
+					matcher = PATTERN_6.matcher(subFile.getName());
+					while (matcher.find()) {
+						Date date = SRC6_DATE_FORMAT.parse(matcher.group(1));
+
+						fileTags = new SolidSteelFileTagsBeagleBuddy(subFile.getAbsolutePath(), date, matcher.group(3),
+								matcher.group(2), "", matcher.group(4));
+
+						System.out.println(matcher.group(1) + " " + matcher.group(3) + " " + matcher.group(2) + " " +
+								matcher.group(4));
 					}
 				}
 			} catch (ParseException e) {
