@@ -89,8 +89,8 @@ public class RenameSolidSteel {
 			}
 
 			if (fileTags != null) {
-				System.out.println(fileTags.getNewSolidSteelFileName());
-//				fileTags.updateTags();
+//				System.out.println(fileTags.getNewSolidSteelFileName());
+				fileTags.updateTags();
 			}
 		}
 	}
