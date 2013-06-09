@@ -17,18 +17,33 @@ public class RenameSolidSteel {
 	private static final SimpleDateFormat SRC1_DATE_FORMAT = new SimpleDateFormat("dd.mm.yy");
 	private static final SimpleDateFormat SRC4_DATE_FORMAT = new SimpleDateFormat("dd_mm_yyyy");
 	private static final SimpleDateFormat SRC6_DATE_FORMAT = new SimpleDateFormat("dd-MMM-yy");
+	private static final SimpleDateFormat SRC8_DATE_FORMAT = new SimpleDateFormat("dd-mm-yy");
+	private static final SimpleDateFormat SRC11_DATE_FORMAT = new SimpleDateFormat("dd-mm-yyyy");
 
-	private static final Pattern PATTERN_1 = Pattern.compile("(\\d\\d.\\d\\d.\\d\\d) - (.+) \\(pt\\.(\\d)\\)(\\..+)");
-	private static final Pattern PATTERN_2 =
-			Pattern.compile("(\\d\\d.\\d\\d.\\d\\d) - (.+) \\(pt\\.(\\d).+(\\d)\\)(\\..+)");
-	private static final Pattern PATTERN_3 =
-			Pattern.compile(".+(\\d\\d\\d\\d.\\d\\d.\\d\\d)\\.0(\\d|\\d.) (.+)\\)(\\..+)");
-	private static final Pattern PATTERN_4 =
-			Pattern.compile(".+ (\\d+.\\d+.\\d\\d\\d\\d).Part.(\\d)...(\\d) - (.+)(\\..+)");
-	private static final Pattern PATTERN_5 =
-			Pattern.compile(".+ (\\d\\d\\d\\d.\\d\\d.\\d\\d).+(\\d).(\\d). (.+)(\\..+)");
-	private static final Pattern PATTERN_6 =
-			Pattern.compile("(\\d\\d-...-\\d\\d).(\\d\\d) (.+).(\\..+)");
+	private static final SolidSteelPattern[] SOLID_STEEL_PATTERNS = new SolidSteelPattern[]{
+			new SolidSteelPattern(Pattern.compile("(\\d\\d.\\d\\d.\\d\\d) - (.+) \\(pt\\.(\\d)\\)(\\..+)"), //1
+					SRC1_DATE_FORMAT, 1, 2, 3, 0, 4),
+			new SolidSteelPattern(Pattern.compile("(\\d\\d.\\d\\d.\\d\\d) - (.+) \\(pt\\.(\\d).+(\\d)\\)(\\..+)"), //2
+					SRC1_DATE_FORMAT, 1, 2, 3, 4, 5),
+			new SolidSteelPattern(Pattern.compile(".+(\\d\\d\\d\\d.\\d\\d.\\d\\d)\\.0(\\d|\\d.) (.+)\\)(\\..+)"), //3
+					MusicBase.TRUE_DATE_FORMAT, 1, 3, 2, 0, 4),
+			new SolidSteelPattern(Pattern.compile(".+ (\\d+.\\d+.\\d\\d\\d\\d).Part.(\\d)...(\\d) - (.+)(\\..+)"), //4
+					SRC4_DATE_FORMAT, 1, 4, 2, 3, 5),
+			new SolidSteelPattern(Pattern.compile(".+ (\\d\\d\\d\\d.\\d\\d.\\d\\d).+(\\d).(\\d). (.+)(\\..+)"), //5
+					MusicBase.TRUE_DATE_FORMAT, 1, 4, 2, 3, 5),
+			new SolidSteelPattern(Pattern.compile("(\\d\\d-...-\\d\\d).0(\\d) (.+).(\\..+)"), //6
+					SRC6_DATE_FORMAT, 1, 3, 2, 0, 4),
+			new SolidSteelPattern(Pattern.compile("0(\\d) - .+ - (\\d\\d.\\d\\d.\\d\\d) - (.+)(\\..+)"), //7
+					SRC1_DATE_FORMAT, 2, 3, 1, 0, 4),
+			new SolidSteelPattern(Pattern.compile("0(\\d)..+.-.(.+)..(\\d\\d-\\d\\d-\\d\\d).+(\\..+)"), //8
+					SRC8_DATE_FORMAT, 3, 2, 1, 0, 4),
+			new SolidSteelPattern(Pattern.compile("(\\d\\d.\\d\\d.\\d\\d) - (.+) \\(pt\\.(\\d).+(\\d)\\).+(\\..+)"), //9
+					SRC1_DATE_FORMAT, 1, 2, 3, 4, 5),
+			new SolidSteelPattern(Pattern.compile("(\\d\\d.\\d\\d.\\d\\d) - (.+)(\\..+)"), //10
+					SRC1_DATE_FORMAT, 1, 2, 0, 0, 3),
+			new SolidSteelPattern(Pattern.compile(".+(\\d\\d-\\d\\d-\\d\\d\\d\\d)-0(\\d) (.+).(\\..+)"), //11
+					SRC11_DATE_FORMAT, 1, 3, 2, 0, 4),
+	};
 
 	public static void main(String[] args) {
 		String basePath = new File(".").getAbsolutePath();
@@ -46,69 +61,26 @@ public class RenameSolidSteel {
 		}
 
 		File[] subFiles = baseDirectory.listFiles();
+		if (subFiles == null) {
+			System.out.println("Given directory is invalid! Nothing to check!");
+			return;
+		}
+
 		for (File subFile : subFiles) {
 			SolidSteelFileTagsBeagleBuddy fileTags = null;
 
 			try {
-				Matcher matcher = PATTERN_1.matcher(subFile.getName());
-				while (matcher.find()) {
-					Date date = SRC1_DATE_FORMAT.parse(matcher.group(1));
-
-					fileTags =
-							new SolidSteelFileTagsBeagleBuddy(subFile.getAbsolutePath(), date, matcher.group(2),
-									matcher.group(3), "", matcher.group(4));
-				}
-
-				if (fileTags == null) {
-					matcher = PATTERN_2.matcher(subFile.getName());
+				for (SolidSteelPattern pattern : SOLID_STEEL_PATTERNS) {
+					Matcher matcher = pattern.getPattern().matcher(subFile.getName());
 					while (matcher.find()) {
-						Date date = SRC1_DATE_FORMAT.parse(matcher.group(1));
-
-						fileTags = new SolidSteelFileTagsBeagleBuddy(subFile.getAbsolutePath(), date, matcher.group(2),
-								matcher.group(3), matcher.group(4), matcher.group(5));
+						Date date = pattern.getDateFormat().parse(matcher.group(pattern.getDate()));
+						String part1 = pattern.getPart1() == 0 ? "" : matcher.group(pattern.getPart1());
+						String part2 = pattern.getPart2() == 0 ? "" : matcher.group(pattern.getPart2());
+						fileTags = new SolidSteelFileTagsBeagleBuddy(subFile.getAbsolutePath(), date,
+								matcher.group(pattern.getName()), part1, part2, matcher.group(pattern.getExtension()));
 					}
-				}
-
-				if (fileTags == null) {
-					matcher = PATTERN_3.matcher(subFile.getName());
-					while (matcher.find()) {
-						Date date = MusicBase.TRUE_DATE_FORMAT.parse(matcher.group(1));
-
-						fileTags = new SolidSteelFileTagsBeagleBuddy(subFile.getAbsolutePath(), date, matcher.group(3),
-								matcher.group(2), "", matcher.group(4));
-					}
-				}
-
-				if (fileTags == null) {
-					matcher = PATTERN_4.matcher(subFile.getName());
-					while (matcher.find()) {
-						Date date = SRC4_DATE_FORMAT.parse(matcher.group(1));
-
-						fileTags = new SolidSteelFileTagsBeagleBuddy(subFile.getAbsolutePath(), date, matcher.group(4),
-								matcher.group(2), matcher.group(3), matcher.group(5));
-					}
-				}
-
-				if (fileTags == null) {
-					matcher = PATTERN_5.matcher(subFile.getName());
-					while (matcher.find()) {
-						Date date = MusicBase.TRUE_DATE_FORMAT.parse(matcher.group(1));
-
-						fileTags = new SolidSteelFileTagsBeagleBuddy(subFile.getAbsolutePath(), date, matcher.group(4),
-								matcher.group(2), matcher.group(3), matcher.group(5));
-					}
-				}
-
-				if (fileTags == null) {
-					matcher = PATTERN_6.matcher(subFile.getName());
-					while (matcher.find()) {
-						Date date = SRC6_DATE_FORMAT.parse(matcher.group(1));
-
-						fileTags = new SolidSteelFileTagsBeagleBuddy(subFile.getAbsolutePath(), date, matcher.group(3),
-								matcher.group(2), "", matcher.group(4));
-
-						System.out.println(matcher.group(1) + " " + matcher.group(3) + " " + matcher.group(2) + " " +
-								matcher.group(4));
+					if (fileTags != null) {
+						break;
 					}
 				}
 			} catch (ParseException e) {
@@ -117,7 +89,8 @@ public class RenameSolidSteel {
 			}
 
 			if (fileTags != null) {
-				fileTags.updateTags();
+				System.out.println(fileTags.getNewSolidSteelFileName());
+//				fileTags.updateTags();
 			}
 		}
 	}

@@ -12,6 +12,6 @@ public class MusicBase {
 	public static final SimpleDateFormat TRUE_DATE_FORMAT = new SimpleDateFormat("yyyy-mm-dd");
 
 	public static String getSolidSteelParts(String part1, String part2) {
-		return "part " + part1 + (part2.isEmpty() ? "" : " & " + part2);
+		return (part1.isEmpty() ? "" : "part " + part1) + (part2.isEmpty() ? "" : " & " + part2);
 	}
 }
