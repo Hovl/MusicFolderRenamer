@@ -21,9 +21,9 @@ public class RenameSolidSteel {
 	private static final SimpleDateFormat SRC11_DATE_FORMAT = new SimpleDateFormat("dd-mm-yyyy");
 
 	private static final SolidSteelPattern[] SOLID_STEEL_PATTERNS = new SolidSteelPattern[]{
-			new SolidSteelPattern(Pattern.compile("(\\d\\d.\\d\\d.\\d\\d) - (.+) \\(pt\\.(\\d)\\)(\\..+)"), //1
+			new SolidSteelPattern(Pattern.compile("(\\d\\d.\\d\\d.\\d\\d) - (.+) \\(pt.(\\d)\\)(\\..+)"), //1
 					SRC1_DATE_FORMAT, 1, 2, 3, 0, 4),
-			new SolidSteelPattern(Pattern.compile("(\\d\\d.\\d\\d.\\d\\d) - (.+) \\(pt\\.(\\d).+(\\d)\\)(\\..+)"), //2
+			new SolidSteelPattern(Pattern.compile("(\\d\\d.\\d\\d.\\d\\d) - (.+) \\(pt.(\\d).+(\\d)\\)(\\..+)"), //2
 					SRC1_DATE_FORMAT, 1, 2, 3, 4, 5),
 			new SolidSteelPattern(Pattern.compile(".+(\\d\\d\\d\\d.\\d\\d.\\d\\d)\\.0(\\d|\\d.) (.+)\\)(\\..+)"), //3
 					MusicBase.TRUE_DATE_FORMAT, 1, 3, 2, 0, 4),
