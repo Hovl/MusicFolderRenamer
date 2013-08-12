@@ -1,10 +1,14 @@
 package ebs.music;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,6 +19,18 @@ import java.util.regex.Pattern;
  * Copyright (c) 2012
  */
 public class RenameSolidSteel {
+	private static final Logger LOGGER = Logger.getLogger(RenameSolidSteel.class.getName());
+
+	{
+		try {
+			FileHandler handler = new FileHandler("/RenameSolidSteel%u.log");
+			handler.setLevel(Level.ALL);
+			LOGGER.addHandler(handler);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private static final SimpleDateFormat SRC1_DATE_FORMAT = new SimpleDateFormat("dd.MM.yy");
 	private static final SimpleDateFormat SRC4_DATE_FORMAT = new SimpleDateFormat("dd_MM_yyyy");
 	private static final SimpleDateFormat SRC6_DATE_FORMAT = new SimpleDateFormat("dd-MMM-yy", Locale.ENGLISH);
@@ -61,23 +77,24 @@ public class RenameSolidSteel {
 	};
 
 	public static void main(String[] args) {
+
 		String basePath = new File(".").getAbsolutePath();
 
 		if (args.length == 0) {
-			System.out.println("No basePath specified! Working with current.");
+			LOGGER.warning("No basePath specified! Working with current.");
 		}
 
-		System.out.println("Current basePath: " + basePath);
+		LOGGER.info("Current basePath: " + basePath);
 
 		File baseDirectory = new File(basePath);
 		if (!baseDirectory.isDirectory()) {
-			System.out.println("Base directory is not a directory! Quiting...");
+			LOGGER.warning("Base directory is not a directory! Quiting...");
 			return;
 		}
 
 		File[] subFiles = baseDirectory.listFiles();
 		if (subFiles == null) {
-			System.out.println("Given directory is invalid! Nothing to check!");
+			LOGGER.warning("Given directory is invalid! Nothing to check!");
 			return;
 		}
 
@@ -99,12 +116,12 @@ public class RenameSolidSteel {
 					}
 				}
 			} catch (ParseException e) {
-				e.printStackTrace();
+				LOGGER.warning(e.getMessage());
 				continue;
 			}
 
 			if (fileTags != null) {
-//				System.out.println(fileTags.getNewSolidSteelFileName());
+				LOGGER.info(subFile.getName() + " -> " + fileTags.getNewSolidSteelFileName());
 				fileTags.updateTags();
 			}
 		}
