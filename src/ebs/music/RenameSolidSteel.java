@@ -114,7 +114,7 @@ public class RenameSolidSteel {
 				}
 
 				scanDirectory(subFile, ssName);
-				return;
+				continue;
 			}
 
 			SolidSteelFileTagsBeagleBuddy fileTags = null;
