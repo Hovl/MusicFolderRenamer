@@ -76,6 +76,8 @@ public class RenameSolidSteel {
 					}, 3, 2, 1, 0, 4),
 	};
 
+	private static final Pattern SOLID_STEEL_FOLDER_PATTERN = Pattern.compile("\\d\\d.\\d\\d.\\d\\d - (.+)");
+
 	public static void main(String[] args) {
 
 		String basePath = new File(".").getAbsolutePath();
@@ -92,6 +94,10 @@ public class RenameSolidSteel {
 			return;
 		}
 
+		scanDirectory(baseDirectory, null);
+	}
+
+	private static void scanDirectory(File baseDirectory, String name) {
 		File[] subFiles = baseDirectory.listFiles();
 		if (subFiles == null) {
 			LOGGER.warning("Given directory is invalid! Nothing to check!");
@@ -99,6 +105,18 @@ public class RenameSolidSteel {
 		}
 
 		for (File subFile : subFiles) {
+			if(subFile.isDirectory()) {
+				String ssName = null;
+
+				Matcher matcher = SOLID_STEEL_FOLDER_PATTERN.matcher(subFile.getName());
+				while (matcher.find()) {
+					ssName = matcher.group(1);
+				}
+
+				scanDirectory(subFile, ssName);
+				return;
+			}
+
 			SolidSteelFileTagsBeagleBuddy fileTags = null;
 
 			try {
@@ -109,7 +127,9 @@ public class RenameSolidSteel {
 						String part1 = pattern.getPart1() == 0 ? "" : matcher.group(pattern.getPart1());
 						String part2 = pattern.getPart2() == 0 ? "" : matcher.group(pattern.getPart2());
 						fileTags = new SolidSteelFileTagsBeagleBuddy(subFile.getAbsolutePath(), date,
-								matcher.group(pattern.getName()), part1, part2, matcher.group(pattern.getExtension()));
+								name == null ? matcher.group(pattern.getName()) : name, part1, part2,
+								matcher.group(pattern.getExtension()
+						));
 					}
 					if (fileTags != null) {
 						break;
