@@ -37,7 +37,7 @@ public class RenameSolidSteel {
 	private static final SimpleDateFormat SRC8_DATE_FORMAT = new SimpleDateFormat("dd-MM-yy");
 	private static final SimpleDateFormat SRC11_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
 	private static final SimpleDateFormat SRC12_DATE_FORMAT = new SimpleDateFormat("yyyy MMM dd", Locale.ENGLISH);
-	private static final Pattern SRC12_DATE_PATTERN = Pattern.compile("(..._\\d\\d\\))-2cd-(\\d\\d\\d\\d)");
+	private static final Pattern SRC12_DATE_PATTERN = Pattern.compile("(..._\\d\\d\\))-2cd[r]-(\\d\\d\\d\\d)");
 
 	private static final SolidSteelPattern[] SOLID_STEEL_PATTERNS = new SolidSteelPattern[]{
 			new SolidSteelPattern(Pattern.compile("(\\d\\d.\\d\\d.\\d\\d) - (.+) \\(pt.(\\d)\\)(\\..+)"), //1
@@ -62,7 +62,7 @@ public class RenameSolidSteel {
 					SRC1_DATE_FORMAT, 1, 2, 0, 0, 3),
 			new SolidSteelPattern(Pattern.compile(".+(\\d\\d-\\d\\d-\\d\\d\\d\\d)-0(\\d) (.+).(\\..+)"), //11
 					SRC11_DATE_FORMAT, 1, 3, 2, 0, 4),
-			new SolidSteelPattern(Pattern.compile("0(\\d)..+.-.(.+)..(..._\\d\\d\\)-2cd-\\d\\d\\d\\d).+(\\....)"), //12
+			new SolidSteelPattern(Pattern.compile("0(\\d)..+.-.(.+)..(..._\\d\\d\\)-2cd[r]-\\d\\d\\d\\d).+(\\....)"), //12
 					new SimpleDateFormat() {
 						@Override
 						public Date parse(String text) throws ParseException {
@@ -123,6 +123,7 @@ public class RenameSolidSteel {
 				for (SolidSteelPattern pattern : SOLID_STEEL_PATTERNS) {
 					Matcher matcher = pattern.getPattern().matcher(subFile.getName());
 					while (matcher.find()) {
+						System.out.println(matcher.group(pattern.getDate()));
 						Date date = pattern.getDateFormat().parse(matcher.group(pattern.getDate()));
 						String part1 = pattern.getPart1() == 0 ? "" : matcher.group(pattern.getPart1());
 						String part2 = pattern.getPart2() == 0 ? "" : matcher.group(pattern.getPart2());
