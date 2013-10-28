@@ -62,7 +62,7 @@ public class RenameSolidSteel {
 					SRC1_DATE_FORMAT, 1, 2, 0, 0, 3),
 			new SolidSteelPattern(Pattern.compile(".+(\\d\\d-\\d\\d-\\d\\d\\d\\d)-0(\\d) (.+).(\\..+)"), //11
 					SRC11_DATE_FORMAT, 1, 3, 2, 0, 4),
-			new SolidSteelPattern(Pattern.compile("0(\\d)..+.-.(.+)..(..._\\d\\d\\)-2cd[r]-\\d\\d\\d\\d).+(\\....)"), //12
+			new SolidSteelPattern(Pattern.compile("0(\\d)..+.-.(.+)..(..._\\d\\d\\)-2cd[r]-\\d\\d\\d\\d)(.+)?(\\....)"), //12
 					new SimpleDateFormat() {
 						@Override
 						public Date parse(String text) throws ParseException {
@@ -73,7 +73,7 @@ public class RenameSolidSteel {
 							}
 							return null;
 						}
-					}, 3, 2, 1, 0, 4),
+					}, 3, 2, 1, 0, 5),
 	};
 
 	private static final Pattern SOLID_STEEL_FOLDER_PATTERN = Pattern.compile("\\d\\d.\\d\\d.\\d\\d - (.+)");
@@ -123,7 +123,6 @@ public class RenameSolidSteel {
 				for (SolidSteelPattern pattern : SOLID_STEEL_PATTERNS) {
 					Matcher matcher = pattern.getPattern().matcher(subFile.getName());
 					while (matcher.find()) {
-						System.out.println(matcher.group(pattern.getDate()));
 						Date date = pattern.getDateFormat().parse(matcher.group(pattern.getDate()));
 						String part1 = pattern.getPart1() == 0 ? "" : matcher.group(pattern.getPart1());
 						String part2 = pattern.getPart2() == 0 ? "" : matcher.group(pattern.getPart2());
