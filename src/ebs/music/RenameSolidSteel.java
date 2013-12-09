@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 public class RenameSolidSteel {
 	private static final Logger LOGGER = Logger.getLogger(RenameSolidSteel.class.getName());
 
-	{
+	static {
 		try {
 			FileHandler handler = new FileHandler("/RenameSolidSteel%u.log");
 			handler.setLevel(Level.ALL);
