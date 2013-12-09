@@ -62,7 +62,7 @@ public class RenameSolidSteel {
 					SRC1_DATE_FORMAT, 1, 2, 0, 0, 3),
 			new SolidSteelPattern(Pattern.compile(".+(\\d\\d-\\d\\d-\\d\\d\\d\\d)-0(\\d) (.+).(\\..+)"), //11
 					SRC11_DATE_FORMAT, 1, 3, 2, 0, 4),
-			new SolidSteelPattern(Pattern.compile("0(\\d)..+.-.(.+)..(..._\\d\\d\\)-2cd[r]-\\d\\d\\d\\d)(.+)?(\\....)"), //12
+			new SolidSteelPattern(Pattern.compile("0(\\d)..+.-.(.+)..(..._\\d\\d\\)-2[cC][dD]?-\\d\\d\\d\\d)(.+)?(\\....)"), //12
 					new SimpleDateFormat() {
 						@Override
 						public Date parse(String text) throws ParseException {
