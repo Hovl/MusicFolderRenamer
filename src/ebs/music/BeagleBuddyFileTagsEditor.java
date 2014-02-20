@@ -67,7 +67,7 @@ public class BeagleBuddyFileTagsEditor extends FileTagsEditor {
 			fileNewName = getNewFileName();
 			System.out.println("->" + fileNewName);
 
-			if (!renameFile && !new File(fileName).renameTo(new File(fileNewName))) {
+			if (renameFile && !new File(fileName).renameTo(new File(fileNewName))) {
 				System.out.println("Cannot rename file: " + fileName);
 			}
 		} catch (Exception e) {

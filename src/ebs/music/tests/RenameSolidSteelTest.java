@@ -29,11 +29,6 @@ public class RenameSolidSteelTest extends TestCase {
 		testPattern(12, testName, 2013, 10, 4, "1", "2", "DJ Food", ".mp3");
 	}
 
-	public void testPattern14() throws ParseException {
-		String testName = "Solid Steel Radio Show 6/12/2013 Part 1 + 2 - DK.mp3";
-		testPattern(13, testName, 2013, 12, 6, "1", "2", "DK", ".mp3");
-	}
-
 	private void testPattern(Integer patternID, String testName, int year, Integer month, int day,
 							 String p1,
 							 String p2,
