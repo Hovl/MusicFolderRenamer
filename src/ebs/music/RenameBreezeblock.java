@@ -89,8 +89,10 @@ public class RenameBreezeblock {
 
 			BeagleBuddyFileTagsEditor editor = null;
 
-			try {
-				for (MusicFileNamePattern pattern : BREEZEBLOCK_PATTERNS) {
+
+			for (MusicFileNamePattern pattern : BREEZEBLOCK_PATTERNS) {
+				try {
+
 					Matcher matcher = pattern.getPattern().matcher(subFile.getName());
 					while (matcher.find()) {
 						Date date = pattern.getDate() != 0 ?
@@ -114,11 +116,11 @@ public class RenameBreezeblock {
 					if (editor != null) {
 						break;
 					}
+				} catch (ParseException e) {
+					LOGGER.warning("File: " + subFile.getName() + " - " + e.getMessage());
 				}
-			} catch (ParseException e) {
-				LOGGER.warning(e.getMessage());
-				continue;
 			}
+
 
 			if (editor != null) {
 				LOGGER.info(subFile.getName() + " -> " + editor.getNewFileName());
