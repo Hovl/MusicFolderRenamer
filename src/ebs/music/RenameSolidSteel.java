@@ -66,7 +66,7 @@ public class RenameSolidSteel {
 					}, 3, 2, 1, 0, 5
 			),
 			new MusicFileNamePattern(Pattern.compile(".+ (\\d+.\\d+.\\d\\d\\d\\d) Part (\\d)...(\\d) - (.+)(\\..+)"),
-					//13
+			 //13
 					SRC11_DATE_FORMAT, 1, 4, 2, 3, 5),
 	};
 
@@ -117,6 +117,7 @@ public class RenameSolidSteel {
 
 			for (MusicFileNamePattern pattern : SOLID_STEEL_PATTERNS) {
 				try {
+
 					Matcher matcher = pattern.getPattern().matcher(subFile.getName());
 					while (matcher.find()) {
 						LOGGER.info("Current file: " + subFile.getName());

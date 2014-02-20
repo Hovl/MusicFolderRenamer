@@ -20,7 +20,6 @@ public class BeagleBuddyFileTagsEditor extends FileTagsEditor {
 	protected BeagleBuddyFileTagsEditor(TagsData tagsData, String fileName, MusicFileData musicFileData) {
 		super(tagsData, fileName, musicFileData);
 
-		System.out.println(fileName);
 		try {
 			file = new MP3(fileName);
 		} catch (Exception e) {
