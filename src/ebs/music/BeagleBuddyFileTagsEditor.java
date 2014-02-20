@@ -78,10 +78,11 @@ public class BeagleBuddyFileTagsEditor extends FileTagsEditor {
 
 	@Override
 	public String getNewFileName() {
+		String parts = MusicBase.getParts(musicFileData.getPart1(), musicFileData.getPart2());
 		return tagsData.getBand() + " - " +
 				MusicBase.TRUE_DATE_FORMAT.format(musicFileData.getDate()) + " - " +
 				musicFileData.getName() +
-				" [" + MusicBase.getParts(musicFileData.getPart1(), musicFileData.getPart2()) + "]" +
+				(parts.length() > 0 ? (" [" + parts + "]") : "") +
 				" [" + (file == null ? "" : getBitrate(fileName)) + "]" +
 				musicFileData.getExtension();
 	}
