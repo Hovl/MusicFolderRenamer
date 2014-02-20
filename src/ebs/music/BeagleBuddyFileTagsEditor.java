@@ -10,24 +10,17 @@ import java.util.Date;
 
 /**
  * Created by Aleksey Dubov
- * Date: 3/7/13
- * Time: 10:52 PM
- * Copyright (c) 2013
+ * Date: 14/02/20
+ * Time: 14:26
+ * Copyright (c) 2014
  */
-public class SolidSteelFileTagsBeagleBuddy {
-	private String fileName;
+public class BeagleBuddyFileTagsEditor extends FileTagsEditor {
 	private MP3 file;
 
-	private Date date;
-	private String name;
-	private String part1;
-	private String part2;
-	private String extension;
+	protected BeagleBuddyFileTagsEditor(TagsData tagsData, String fileName, MusicFileData musicFileData) {
+		super(tagsData, fileName, musicFileData);
 
-	public SolidSteelFileTagsBeagleBuddy(String fileName) {
-		this.fileName = fileName;
 		System.out.println(fileName);
-
 		try {
 			file = new MP3(fileName);
 		} catch (Exception e) {
@@ -35,18 +28,8 @@ public class SolidSteelFileTagsBeagleBuddy {
 		}
 	}
 
-	public SolidSteelFileTagsBeagleBuddy(String fileName, Date date, String name, String part1, String part2,
-										 String extension) {
-		this(fileName);
-
-		this.date = date;
-		this.name = name;
-		this.part1 = part1;
-		this.part2 = part2;
-		this.extension = extension;
-	}
-
-	public void updateTags() {
+	@Override
+	public void updateTags(boolean renameFile) {
 		String fileNewName;
 
 		try {
@@ -63,29 +46,44 @@ public class SolidSteelFileTagsBeagleBuddy {
 						(title == null ? "" : title));
 			}
 
+			String part1 = musicFileData.getPart1();
+			String part2 = musicFileData.getPart2();
+			Date date = musicFileData.getDate();
+
 			file.setTrack(part2 == null || part2.isEmpty() ? Integer.parseInt(part1.substring(0, 1)) :
 					(Integer.parseInt(part1.substring(0, 1)) == 1 ? Integer.parseInt(part1.substring(0, 1)) : 2));
-			file.setBand("Solid Steel");
-			file.setTitle(name + " - " + MusicBase.TRUE_DATE_FORMAT.format(date) + " - " + MusicBase
+			file.setBand(tagsData.getBand());
+			file.setTitle(musicFileData.getName() + " - " + MusicBase.TRUE_DATE_FORMAT.format(date) + " - " + MusicBase
 					.getSolidSteelParts(part1, part2));
 			file.setAlbum(MusicBase.TRUE_DATE_FORMAT.format(date));
 
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(date);
 			file.setYear(calendar.get(Calendar.YEAR));
-			file.setMusicType(Genre.ELECTRONIC);
+			file.setMusicType(Genre.valueOf(tagsData.getGenre().toUpperCase()));
 
 			file.save();
 
-			fileNewName = getNewSolidSteelFileName();
+			fileNewName = getNewFileName();
 			System.out.println("->" + fileNewName);
-			if (!new File(fileName).renameTo(new File(fileNewName))) {
+
+			if (!renameFile && !new File(fileName).renameTo(new File(fileNewName))) {
 				System.out.println("Cannot rename file: " + fileName);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(fileName + " is not readable!");
 		}
+	}
+
+	@Override
+	public String getNewFileName() {
+		return tagsData.getBand() + " - " +
+				MusicBase.TRUE_DATE_FORMAT.format(musicFileData.getDate()) + " - " +
+				musicFileData.getName() +
+				" [" + MusicBase.getSolidSteelParts(musicFileData.getPart1(), musicFileData.getPart2()) + "]" +
+				" [" + (file == null ? "" : getBitrate(fileName)) + "]" +
+				musicFileData.getExtension();
 	}
 
 	private String getBitrate(String fileName) {
@@ -101,16 +99,5 @@ public class SolidSteelFileTagsBeagleBuddy {
 		}
 
 		return Integer.toString(mp3File.getBitrate());
-	}
-
-	public String getNewSolidSteelFileName() {
-		String bitrate = file == null ? "" : getBitrate(fileName);
-
-		return "Solid Steel - " +
-				MusicBase.TRUE_DATE_FORMAT.format(date) + " - " +
-				name +
-				" [" + MusicBase.getSolidSteelParts(part1, part2) + "]" +
-				" [" + bitrate + "]" +
-				extension;
 	}
 }
