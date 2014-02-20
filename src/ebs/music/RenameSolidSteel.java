@@ -120,8 +120,6 @@ public class RenameSolidSteel {
 
 					Matcher matcher = pattern.getPattern().matcher(subFile.getName());
 					while (matcher.find()) {
-						LOGGER.info("Current file: " + subFile.getName());
-
 						Date date = pattern.getDateFormat().parse(matcher.group(pattern.getDate()));
 						String part1 = pattern.getPart1() == 0 ? "" : matcher.group(pattern.getPart1());
 						String part2 = pattern.getPart2() == 0 ? "" : matcher.group(pattern.getPart2());
@@ -135,7 +133,7 @@ public class RenameSolidSteel {
 						break;
 					}
 				} catch (ParseException e) {
-					LOGGER.warning(e.getMessage());
+					LOGGER.warning("File: " + subFile.getName() + " - " + e.getMessage());
 				}
 			}
 
