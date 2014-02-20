@@ -3,6 +3,7 @@ package ebs.music;
 import com.mpatric.mp3agic.ID3v2;
 import com.mpatric.mp3agic.ID3v24Tag;
 import com.mpatric.mp3agic.Mp3File;
+import ebs.music.MusicBase;
 
 import java.io.File;
 import java.util.Calendar;
@@ -70,7 +71,7 @@ public class SolidSteelFileTagsMp3agic {
 			id3.setTrack(part2 == null || part2.isEmpty() ? part1 : (Integer.parseInt(part1) == 1 ? part1 : "2"));
 			id3.setArtist("Solid Steel");
 			id3.setTitle(name + " - " + MusicBase.TRUE_DATE_FORMAT.format(date) + " - " + MusicBase
-					.getSolidSteelParts(part1, part2));
+					.getParts(part1, part2));
 			id3.setAlbum(MusicBase.TRUE_DATE_FORMAT.format(date));
 
 			Calendar calendar = Calendar.getInstance();
@@ -106,7 +107,7 @@ public class SolidSteelFileTagsMp3agic {
 		return "Solid Steel - " +
 				MusicBase.TRUE_DATE_FORMAT.format(date) + " - " +
 				name +
-				" [" + MusicBase.getSolidSteelParts(part1, part2) + "]" +
+				" [" + MusicBase.getParts(part1, part2) + "]" +
 				" [" + bitrate + "]" +
 				extension;
 	}

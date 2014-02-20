@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 * Time: 3:39 AM
 * Copyright (c) 2013
 */
-public class SolidSteelPattern {
+public class MusicFileNamePattern {
 	private Pattern pattern;
 	private SimpleDateFormat dateFormat;
 	private Integer date;
@@ -18,8 +18,8 @@ public class SolidSteelPattern {
 	private Integer part2;
 	private Integer extension;
 
-	public SolidSteelPattern(Pattern pattern, SimpleDateFormat dateFormat, Integer date, Integer name,
-							 Integer part1, Integer part2, Integer extension) {
+	public MusicFileNamePattern(Pattern pattern, SimpleDateFormat dateFormat, Integer date, Integer name,
+								Integer part1, Integer part2, Integer extension) {
 		this.pattern = pattern;
 		this.dateFormat = dateFormat;
 		this.date = date;

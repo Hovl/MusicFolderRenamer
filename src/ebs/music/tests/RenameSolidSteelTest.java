@@ -1,7 +1,7 @@
 package ebs.music.tests;
 
+import ebs.music.MusicFileNamePattern;
 import ebs.music.RenameSolidSteel;
-import ebs.music.SolidSteelPattern;
 import junit.framework.TestCase;
 
 import java.text.ParseException;
@@ -38,7 +38,7 @@ public class RenameSolidSteelTest extends TestCase {
 							 String p1,
 							 String p2,
 							 String name, String ext) throws ParseException {
-		SolidSteelPattern pattern = RenameSolidSteel.SOLID_STEEL_PATTERNS[patternID];
+		MusicFileNamePattern pattern = RenameSolidSteel.SOLID_STEEL_PATTERNS[patternID];
 
 		Matcher matcher = pattern.getPattern().matcher(testName);
 		assertTrue(matcher.find());

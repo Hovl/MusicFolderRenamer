@@ -54,7 +54,7 @@ public class BeagleBuddyFileTagsEditor extends FileTagsEditor {
 					(Integer.parseInt(part1.substring(0, 1)) == 1 ? Integer.parseInt(part1.substring(0, 1)) : 2));
 			file.setBand(tagsData.getBand());
 			file.setTitle(musicFileData.getName() + " - " + MusicBase.TRUE_DATE_FORMAT.format(date) + " - " + MusicBase
-					.getSolidSteelParts(part1, part2));
+					.getParts(part1, part2));
 			file.setAlbum(MusicBase.TRUE_DATE_FORMAT.format(date));
 
 			Calendar calendar = Calendar.getInstance();
@@ -81,7 +81,7 @@ public class BeagleBuddyFileTagsEditor extends FileTagsEditor {
 		return tagsData.getBand() + " - " +
 				MusicBase.TRUE_DATE_FORMAT.format(musicFileData.getDate()) + " - " +
 				musicFileData.getName() +
-				" [" + MusicBase.getSolidSteelParts(musicFileData.getPart1(), musicFileData.getPart2()) + "]" +
+				" [" + MusicBase.getParts(musicFileData.getPart1(), musicFileData.getPart2()) + "]" +
 				" [" + (file == null ? "" : getBitrate(fileName)) + "]" +
 				musicFileData.getExtension();
 	}

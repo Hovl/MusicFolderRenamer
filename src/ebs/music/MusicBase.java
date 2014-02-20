@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 public class MusicBase {
 	public static final SimpleDateFormat TRUE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
-	public static String getSolidSteelParts(String part1, String part2) {
+	public static String getParts(String part1, String part2) {
 		return (part1.isEmpty() ? "" : "part " + part1) + (part2.isEmpty() ? "" : " & " + part2);
 	}
 }
