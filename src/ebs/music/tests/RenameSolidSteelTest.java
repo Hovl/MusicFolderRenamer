@@ -15,7 +15,7 @@ import java.util.regex.Matcher;
  * Copyright (c) 2014
  */
 public class RenameSolidSteelTest extends TestCase {
-	public void testPattern13() throws ParseException {
+	public void testPattern12() throws ParseException {
 		String testName = "Ninja Tune - Solid Steel Radio Show 6-9-2013 Part 1 + 2 - Letherette.mp3";
 		testPattern(12, testName, 2013, 9, 6, "1", "2", "Letherette", ".mp3");
 
@@ -27,6 +27,16 @@ public class RenameSolidSteelTest extends TestCase {
 
 		testName = "Solid Steel Radio Show 4-10-2013 Part 1 + 2 - DJ Food.mp3";
 		testPattern(12, testName, 2013, 10, 4, "1", "2", "DJ Food", ".mp3");
+	}
+
+	public void testPattern13() throws ParseException {
+		String testName = "Solid Steel Radio Show 1-11-2013 Part 1 - Four Tet.mp3";
+		testPattern(13, testName, 2013, 11, 1, "1", "", "Four Tet", ".mp3");
+	}
+
+	public void testPattern14() throws ParseException {
+		String testName = "Solid Steel Radio Show 29-11-2013 - Part 1 + 2 - Toddla T.mp3";
+		testPattern(14, testName, 2013, 11, 29, "1", "2", "Toddla T", ".mp3");
 	}
 
 	private void testPattern(Integer patternID, String testName, int year, Integer month, int day,
@@ -42,7 +52,7 @@ public class RenameSolidSteelTest extends TestCase {
 		calendar.setTime(pattern.getDateFormat().parse(matcher.group(pattern.getDate())));
 
 		assertEquals(testName, year, calendar.get(Calendar.YEAR));
-		assertEquals(testName, month-1, calendar.get(Calendar.MONTH));
+		assertEquals(testName, month - 1, calendar.get(Calendar.MONTH));
 		assertEquals(testName, day, calendar.get(Calendar.DAY_OF_MONTH));
 
 		String part1 = pattern.getPart1() == 0 ? "" : matcher.group(pattern.getPart1());

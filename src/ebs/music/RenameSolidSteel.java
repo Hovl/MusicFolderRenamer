@@ -68,6 +68,12 @@ public class RenameSolidSteel {
 			new MusicFileNamePattern(Pattern.compile(".+ (\\d+.\\d+.\\d\\d\\d\\d) Part (\\d)...(\\d) - (.+)(\\..+)"),
 			 //13
 					SRC11_DATE_FORMAT, 1, 4, 2, 3, 5),
+			new MusicFileNamePattern(Pattern.compile(".+ (\\d+.\\d+.\\d\\d\\d\\d) Part (\\d) - (.+)(\\..+)"),
+			 //14
+					SRC11_DATE_FORMAT, 1, 3, 2, 0, 4),
+			new MusicFileNamePattern(Pattern.compile(".+ (\\d+.\\d+.\\d\\d\\d\\d) - Part (\\d)...(\\d) - (.+)(\\..+)"),
+			 //15
+					SRC11_DATE_FORMAT, 1, 4, 2, 3, 5),
 	};
 
 	private static final Pattern SOLID_STEEL_FOLDER_PATTERN = Pattern.compile("\\d\\d.\\d\\d.\\d\\d - (.+)");
