@@ -49,11 +49,30 @@ public class BeagleBuddyFileTagsEditor extends FileTagsEditor {
 			String part2 = musicFileData.getPart2();
 			Date date = musicFileData.getDate();
 
-			file.setTrack(part2 == null || part2.isEmpty() ? Integer.parseInt(part1.substring(0, 1)) :
-					(Integer.parseInt(part1.substring(0, 1)) == 1 ? Integer.parseInt(part1.substring(0, 1)) : 2));
+			Integer part = 1;
+			if(part1 != null && !part1.isEmpty()) {
+				if (part1.length() == 1) {
+					part = Integer.parseInt(part1);
+				} else {
+					part = Integer.parseInt(part1.substring(0, 1));
+				}
+			}
+
+			if(part2 != null && !part2.isEmpty()) {
+				if (part2.length() == 1) {
+					part = Integer.parseInt(part2);
+				} else {
+					part = Integer.parseInt(part2.substring(0, 1));
+				}
+			}
+
+			String parts = MusicBase.getParts(part1, part2);
+
+			file.setTrack(part);
 			file.setBand(tagsData.getBand());
-			file.setTitle(musicFileData.getName() + " - " + MusicBase.TRUE_DATE_FORMAT.format(date) + " - " + MusicBase
-					.getParts(part1, part2));
+			file.setTitle(musicFileData.getName() + " - " +
+					MusicBase.TRUE_DATE_FORMAT.format(date) +
+					(parts.length() > 0 ? " - " + parts : ""));
 			file.setAlbum(MusicBase.TRUE_DATE_FORMAT.format(date));
 
 			Calendar calendar = Calendar.getInstance();
