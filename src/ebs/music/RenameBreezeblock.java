@@ -37,6 +37,8 @@ public class RenameBreezeblock {
 					MusicBase.TRUE_DATE_FORMAT, 1, 2, 3, 0, 4),
 			new MusicFileNamePattern(Pattern.compile(".+ - 0?(\\d\\d?) - (.+)(\\..+)"), //9
 					MusicBase.TRUE_DATE_FORMAT, 0, 2, 1, 0, 3),
+			new MusicFileNamePattern(Pattern.compile(".+ - .0?(\\d\\d?). (.+)(\\..+)"), //10
+					MusicBase.TRUE_DATE_FORMAT, 0, 2, 1, 0, 3),
 	};
 
 	public static final Pattern BREEZEBLOCK_FOLDER_PATTERN = Pattern.compile("(\\d\\d\\d\\d-\\d\\d-\\d\\d) .+ - (.+)");

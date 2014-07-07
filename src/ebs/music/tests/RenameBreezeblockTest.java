@@ -71,6 +71,11 @@ public class RenameBreezeblockTest extends TestCase {
 		testPattern(9, testName, 0, 0, 0, "17", "", "Hosted By Goldie", ".mp3");
 	}
 
+	public void testPattern10() throws ParseException {
+		String testName = "Up, Bustle - (10) Richard Egues - Descarga Con Cate.mp3";
+		testPattern(10, testName, 0, 0, 0, "10", "", "Richard Egues - Descarga Con Cate", ".mp3");
+	}
+
 	private void testPattern(Integer patternID, String testName, int year, Integer month, int day,
 							 String p1,
 							 String p2,
