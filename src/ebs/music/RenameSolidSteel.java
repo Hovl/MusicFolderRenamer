@@ -26,6 +26,7 @@ public class RenameSolidSteel {
 	private static final SimpleDateFormat SRC12_DATE_FORMAT = new SimpleDateFormat("yyyy MMM dd", Locale.ENGLISH);
 	private static final SimpleDateFormat SRC16_DATE_FORMAT = new SimpleDateFormat("dMyyyy");
 	private static final SimpleDateFormat SRC17_DATE_FORMAT = new SimpleDateFormat("ddMMyyyy");
+	private static final SimpleDateFormat SRC18_DATE_FORMAT = new SimpleDateFormat("dMMyyyy");
 	private static final Pattern SRC12_DATE_PATTERN = Pattern.compile("(..._\\d\\d\\))-2cd[r]-(\\d\\d\\d\\d)");
 
 	public static final MusicFileNamePattern[] SOLID_STEEL_PATTERNS = new MusicFileNamePattern[]{
@@ -68,20 +69,23 @@ public class RenameSolidSteel {
 					}, 3, 2, 1, 0, 5
 			),
 			new MusicFileNamePattern(Pattern.compile(".+ (\\d+.\\d+.\\d\\d\\d\\d) Part (\\d)...(\\d) - (.+)(\\..+)"),
-			 //13
+					//13
 					SRC11_DATE_FORMAT, 1, 4, 2, 3, 5),
 			new MusicFileNamePattern(Pattern.compile(".+ (\\d+.\\d+.\\d\\d\\d\\d) Part (\\d) - (.+)(\\..+)"),
-			 //14
+					//14
 					SRC11_DATE_FORMAT, 1, 3, 2, 0, 4),
 			new MusicFileNamePattern(Pattern.compile(".+ (\\d+.\\d+.\\d\\d\\d\\d) - Part (\\d)...(\\d) - (.+)(\\..+)"),
-			 //15
+					//15
 					SRC11_DATE_FORMAT, 1, 4, 2, 3, 5),
-			new MusicFileNamePattern(Pattern.compile(".+ (\\d\\d\\d\\d\\d\\d) Part (\\d)...(\\d) - (.+)(\\..+)"),
-			 //16
+			new MusicFileNamePattern(Pattern.compile(".+ ([1-9][1-9]\\d\\d\\d\\d) Part (\\d)...(\\d) - (.+)(\\..+)"),
+					//16
 					SRC16_DATE_FORMAT, 1, 4, 2, 3, 5),
 			new MusicFileNamePattern(Pattern.compile(".+ (\\d\\d\\d\\d\\d\\d\\d\\d) Part (\\d)...(\\d) - (.+)(\\..+)"),
-			 //17
+					//17
 					SRC17_DATE_FORMAT, 1, 4, 2, 3, 5),
+			new MusicFileNamePattern(Pattern.compile(".+([1-9][0-1][1-9]\\d\\d\\d\\d) Part (\\d)...(\\d) - (.+)(\\..+)"),
+					//18
+					SRC18_DATE_FORMAT, 1, 4, 2, 3, 5),
 	};
 
 	private static final Pattern SOLID_STEEL_FOLDER_PATTERN = Pattern.compile("\\d\\d.\\d\\d.\\d\\d - (.+)");
