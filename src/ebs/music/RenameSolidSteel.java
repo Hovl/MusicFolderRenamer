@@ -27,6 +27,7 @@ public class RenameSolidSteel {
 	private static final SimpleDateFormat SRC16_DATE_FORMAT = new SimpleDateFormat("dMyyyy");
 	private static final SimpleDateFormat SRC17_DATE_FORMAT = new SimpleDateFormat("ddMMyyyy");
 	private static final SimpleDateFormat SRC18_DATE_FORMAT = new SimpleDateFormat("dMMyyyy");
+	private static final SimpleDateFormat SRC19_DATE_FORMAT = new SimpleDateFormat("ddMyyyy");
 	private static final Pattern SRC12_DATE_PATTERN = Pattern.compile("(..._\\d\\d\\))-2cd[r]-(\\d\\d\\d\\d)");
 
 	public static final MusicFileNamePattern[] SOLID_STEEL_PATTERNS = new MusicFileNamePattern[]{
@@ -83,9 +84,12 @@ public class RenameSolidSteel {
 			new MusicFileNamePattern(Pattern.compile(".+ (\\d\\d\\d\\d\\d\\d\\d\\d) Part (\\d)...(\\d) - (.+)(\\..+)"),
 					//17
 					SRC17_DATE_FORMAT, 1, 4, 2, 3, 5),
-			new MusicFileNamePattern(Pattern.compile(".+([1-9][0-1][1-9]\\d\\d\\d\\d) Part (\\d)...(\\d) - (.+)(\\..+)"),
+			new MusicFileNamePattern(Pattern.compile(".+([1-9][1][1-9]\\d\\d\\d\\d) Part (\\d)...(\\d) - (.+)(\\..+)"),
 					//18
 					SRC18_DATE_FORMAT, 1, 4, 2, 3, 5),
+			new MusicFileNamePattern(Pattern.compile(".+(\\d\\d[1-9]\\d\\d\\d\\d) Part (\\d)...(\\d) - (.+)(\\..+)"),
+					//19
+					SRC19_DATE_FORMAT, 1, 4, 2, 3, 5),
 	};
 
 	private static final Pattern SOLID_STEEL_FOLDER_PATTERN = Pattern.compile("\\d\\d.\\d\\d.\\d\\d - (.+)");
@@ -148,6 +152,7 @@ public class RenameSolidSteel {
 						editor = new BeagleBuddyFileTagsEditor(tagsData, subFile.getAbsolutePath(), fileData);
 					}
 					if (editor != null) {
+						LOGGER.info("Patter: " + pattern.getPattern().pattern());
 						break;
 					}
 				} catch (ParseException e) {
